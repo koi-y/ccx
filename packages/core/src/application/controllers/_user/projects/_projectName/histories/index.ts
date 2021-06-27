@@ -73,7 +73,6 @@ const defineRoute = (registry: Registry): express.Router => {
 			);
 		})
 	);
-
 	router.use("/:historyId", historyId(registry));
 
 	return router;

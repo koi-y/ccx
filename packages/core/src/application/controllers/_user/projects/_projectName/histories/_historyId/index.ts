@@ -16,7 +16,7 @@ import { Registry } from "types/registry";
 
 const router = express.Router({ mergeParams: true });
 
-const defineRoute = (registry: Registry): express.Router => {
+const dGetResponseefineRoute = (registry: Registry): express.Router => {
 	router.use("/artifacts", artifacts(registry));
 	router.use("/result", result(registry));
 	router.use("/job", job(registry));
@@ -68,4 +68,7 @@ const defineRoute = (registry: Registry): express.Router => {
 	return router;
 };
 
-export default defineRoute;
+
+export default dGetResponseefineRoute;
+
+//export default defineRoute;

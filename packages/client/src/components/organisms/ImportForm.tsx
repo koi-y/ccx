@@ -84,17 +84,35 @@ const ImportProjectForm: React.FunctionComponent = () => {
 		event: React.MouseEvent<HTMLButtonElement>
 	): Promise<void> => {
 		event.preventDefault();
+
 		const res = await importProject(formValue);
+
 		if (res.error) {
 			if (res.error.statusCode === 409) {
+
 				setFormState({
 					...formState,
 					gitURL: "Project already exists."
 				});
+				openSnackbar(
+					"false",
+					"Project already exists."
+				);
 			} else {
+
 				openSnackbar("error", res.error.message);
 			}
-		} else {
+		}
+		else if (res.status === 409) {
+
+			setFormState({
+				...formState,
+				gitURL: "Project already exists."
+			});
+			
+		}  
+		else {
+
 			setImported(true);
 			openSnackbar(
 				"success",

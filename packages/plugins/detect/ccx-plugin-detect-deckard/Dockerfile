@@ -1,4 +1,4 @@
-FROM gcc:8.4.0 as deckard-builder
+FROM gcc:latest as deckard-builder
 RUN apt-get update && \
 	apt-get install -y git python2 make bison flex&& \
 	apt-get clean && \
@@ -26,6 +26,5 @@ COPY --from=deckard-builder /Deckard /Deckard
 RUN apt-get update && \
 	apt-get install -y python2 && \
 	ln -s /usr/bin/python2 /usr/bin/python && \
-	rm -rf /var/lib/apt/lists/* && \
-	./Deckard/src/main/build.sh
+	rm -rf /var/lib/apt/lists/*
 ENTRYPOINT ["node", "/plugin.js"]

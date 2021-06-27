@@ -41,6 +41,8 @@ import { createDetectionResult } from "domain/entity/RawDetectionResult";
 import InternalJobEntity from "common/server-only/types/InternalJobEntity";
 import DetectionResult from "common/all/types/DetectionResult";
 
+
+
 export default class ProjectRepository {
 	private static openGitOn(basePath: string): Git {
 		return simplegit(basePath);
@@ -81,9 +83,12 @@ export default class ProjectRepository {
 		ownerId: InternalUserEntityId,
 		name: ProjectName,
 		source: InternalProjectSource
-	): Promise<InternalProjectEntity | null> {
+	): Promise<InternalProjectEntity |number| null> {
 		// created and lastUpdated are set automatically when the document is creating
 		try {
+			if(await this.findProjectByName(ownerId,name)){
+				return -1;
+			}
 			const document = await ProjectModel.create({
 				ownerId,
 				name,
@@ -320,10 +325,17 @@ export default class ProjectRepository {
 				dir,
 				"clones.json"
 			);
+
+
 			const raw = await readJSON(clonesJsonPath);
 			if (rawDetectionResult.is(raw)) {
 				const result = createDetectionResult(raw, job.plugin, job.args);
 				await writeJSON(clonesJsonPath, result);
+				
+
+
+
+				
 				return {
 					id: Number.parseInt(dir, 10),
 					numberOfClonePairs: result.clonePairs.length,

@@ -28,6 +28,7 @@ const ArtifactsTableRow: React.FunctionComponent<Props> = (props: Props) => {
 		project: string;
 		historyId: string;
 	}>();
+	
 
 	return (
 		<TableRow hover selected={selected}>
@@ -39,7 +40,8 @@ const ArtifactsTableRow: React.FunctionComponent<Props> = (props: Props) => {
 				<IconButton
 					download
 					component="a"
-					href={`${process.env.URL_BASE}api/projects/${project}/histories/${historyId}/artifacts/${file}`}
+					href={`${process.env.URL_BASE}api/v1/projects/${project}/histories/${historyId}/artifacts/${file}`}
+					//href={`${process.env.URL_BASE}api/projects/${project}/histories/${historyId}/artifacts/${file}`}
 				>
 					<CloudDownload />
 				</IconButton>
@@ -99,5 +101,7 @@ const ArtifactsTable: React.FunctionComponent<P> = (props: P) => {
 		</>
 	);
 };
+
+
 
 export default ArtifactsTable;

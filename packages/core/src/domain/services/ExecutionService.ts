@@ -93,9 +93,7 @@ export class ExecutionService {
 				// if there is no suitable worker for the plugin type
 				return;
 			}
-			console.log("test ExecutionSService")
 			const summaries = await this.receiveArtifacts(job, artifacts);
-
 			await ProjectRepository.setSucceeded(
 				job.internalProjectEntityId,
 				job.internalHistoryEntityId,

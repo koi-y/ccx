@@ -10,6 +10,7 @@ const Log: React.FunctionComponent = () => {
 		project: string;
 		historyId: string;
 	}>();
+
 	const { data } = useSWR(
 		route(project, historyId, "out.log"),
 		textFetcher(undefined, {

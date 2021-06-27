@@ -1,16 +1,17 @@
 import { extractNameFromGitURL } from "common/all/constants/regex";
 import ProjectEntity from "common/all/types/ProjectEntity";
 import { createProjectEntity } from "domain/factories/createInternalProjectEntity";
-
+import useAsync from "common/server-only/middlewares/useAsync";
 import GitURLWithPassword from "domain/value-objects/GitURLWithPassword";
 import createGitURLWithPassword from "domain/factories/createGitURLWithPassword";
 import ProjectName from "common/all/types/ProjectName";
 import createProjectName from "domain/factories/createProjectName";
 import createGitURL from "domain/factories/createGitURL";
-
+import ProjectService from "domain/services/ProjectService";
 import ErrorOnProjectImporting from "errors/ErrorOnProjectImporting";
 import ProjectRepository from "infrastructure/repositories/ProjectRepository";
 import { InternalUserEntityId } from "common/server-only/value-objects/EntityId";
+
 
 export default class ImportingProjectByGitURL {
 	readonly gitURL: GitURLWithPassword;
@@ -19,8 +20,7 @@ export default class ImportingProjectByGitURL {
 
 	constructor(readonly ownerId: InternalUserEntityId, gitURL: string) {
 		this.gitURL = createGitURLWithPassword(gitURL, "gitURL");
-
-		const match = this.gitURL.pathname.match(extractNameFromGitURL);
+		const match = this.gitURL.pathname.match(extractNameFromGitURL)!;
 		if (match && match[1]) {
 			this.name = createProjectName(match[1]);
 			return;
@@ -32,7 +32,7 @@ export default class ImportingProjectByGitURL {
 		);
 	}
 
-	public async exec(): Promise<ProjectEntity | null> {
+	public async exec(): Promise<ProjectEntity|number| null> {
 		const r = await ProjectRepository.createProject(
 			this.ownerId,
 			this.name,
@@ -40,6 +40,9 @@ export default class ImportingProjectByGitURL {
 				gitURL: this.gitURL
 			}
 		);
+		if(typeof r == 'number'){		
+			return -1;
+		}
 		if (r !== null) {
 			return createProjectEntity(r);
 		}

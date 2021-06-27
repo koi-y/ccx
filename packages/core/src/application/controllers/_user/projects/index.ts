@@ -12,6 +12,11 @@ import { createProjectEntity } from "domain/factories/createInternalProjectEntit
 import { createEntityId } from "common/server-only/value-objects/EntityId";
 import { fromValue } from "common/all/types/Result";
 import { Registry } from "types/registry";
+import {
+	PostRequest,
+	PostResponse,
+	route
+} from "common/auth-client/api/v1/projects";
 
 const router = express.Router({ mergeParams: true });
 
@@ -19,7 +24,7 @@ const defineRoute = (registry: Registry): express.Router => {
 	// for fetching own projects
 	router.get<{ userEntityId: string }, projects.GetResponse>(
 		"/",
-		useAsync(async (req, res) => {
+		useAsync(async (req, res) => {			
 			const { userEntityId } = req.params;
 			const projectsWithoutSecrets = (
 				await ProjectService.findProjectsByOwnerId(
@@ -45,15 +50,22 @@ const defineRoute = (registry: Registry): express.Router => {
 		validateRequest(projects.postRequest),
 		useAsync(async (req, res) => {
 			const { userEntityId } = req.params;
-			const { gitURL } = req.body;
+			const { gitURL } = req.body;	
 			const project = await new ImportingProjectByGitURL(
 				createEntityId(userEntityId),
 				gitURL
 			).exec();
+
 			if (!project) {
+				res.status(500).send(undefined);
 				throw new Error("failed to fetch project");
 			}
-			res.send(fromValue(project));
+			else if(typeof project == 'number'){
+				res.status(409).send(undefined);
+			}
+			else{
+				res.send(fromValue(project));
+			}
 		})
 	);
 

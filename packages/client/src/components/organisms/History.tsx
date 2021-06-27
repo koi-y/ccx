@@ -31,6 +31,7 @@ const History: React.FunctionComponent = () => {
 		throw data;
 	}
 
+
 	return (
 		<>
 			<Route exact path="/home/:project/history/:historyId">

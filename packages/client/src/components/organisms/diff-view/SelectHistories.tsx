@@ -240,9 +240,7 @@ const SelectHistories: React.FunctionComponent<P> = ({ ids, results }) => {
 
 	const onClick: React.MouseEventHandler<HTMLButtonElement> = React.useCallback(() => {
 		const { revision } = results[state.baseId].request.targets[0];
-		console.log(project);
-		console.log(state);
-		console.log(revision);
+
 
 		
 		history.push({

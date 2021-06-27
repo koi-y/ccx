@@ -88,7 +88,6 @@ const parseFragment = (line: string, repoDir: string): Fragment => {
 			end: Number.parseInt(endStr, 10)
 		};
 	}
-
 	throw new Error(`failed to parse fragment: ${line}`);
 };
 
@@ -175,7 +174,7 @@ const readQuery = async (resources: string): Promise<Query> => {
 	console.log("read query:", JSON.stringify(query))
 
 	const repo = path.resolve(resources, "repo", query.targets[0].revision);
-	const output = path.resolve(artifacts,"output");
+	const output = path.resolve(artifacts, "output");
 	await fs.mkdir(output, { recursive: true });
 
 	const config = buildConfig(query.parameters, output, repo);

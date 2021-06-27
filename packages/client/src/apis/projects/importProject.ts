@@ -13,7 +13,7 @@ export { PostResponse as Response, route };
 const importProject = async (
 	request: PostRequest,
 	options?: FetchOptions
-): Promise<PostResponse> => {
+): Promise<PostResponse|undefined> => {
 	const response = await api.post(route(), {
 		...options,
 		json: request,
@@ -21,6 +21,12 @@ const importProject = async (
 		throwHttpErrors: false
 	});
 	if (response.ok || response.status < 500) {
+
+		if(response.status==409){
+
+			return response;
+		}
+
 		return response.json();
 	}
 	throw response;

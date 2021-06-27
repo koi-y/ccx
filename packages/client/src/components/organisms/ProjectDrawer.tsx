@@ -108,7 +108,7 @@ const ProjectDrawer: React.FunctionComponent<Props> = ({
 						to={`/home/${project}/auto-clone-detection`}
 						className={classes.nested}
 					>
-						<ListItemText primary="Automatic Clone Detection" />
+						<ListItemText primary="Clone Detection (All Detectors)" />
 					</ListItem>
 					<ListItem
 						button

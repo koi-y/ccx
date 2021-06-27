@@ -46,16 +46,7 @@ export const DetectionParametersConfig: React.FunctionComponent = () => {
 					openSnackbar("error", res.error.message);
 				} 
 				else if(moredetectflag){
-/*
-					const { data2 } = useSWR(
-						route2(project, id),
-						jsonFetcher<GetResponse2>(),
-						{
-							refreshInterval: 1 * 60 * 1000 // 1 min
-						}
-					);
-					const reslist = [data2];
-*/
+
 					const reslist = [res];
 					history.push({ pathname: `/home/${project}/addclone-detection`, state: reslist});
 				}
@@ -85,24 +76,3 @@ export const DetectionParametersConfig: React.FunctionComponent = () => {
 };
 
 
-			/*
-			if(moredetectflag){
-				const res = await runDetector(project, {
-					plugin: {
-						id,
-						owner
-					},
-					args: {
-						detectorVersion: config.formValues.detectorVersion,
-						parameters: config.formValues.parameters
-					}
-				});
-				const reslist = [res];
-				if (res.error) {
-					openSnackbar("error", res.error.message);
-				} 
-				else{
-				history.push({ pathname: `/home/${project}/addclone-detection`, state: reslist});
-				}
-			}
-			*/

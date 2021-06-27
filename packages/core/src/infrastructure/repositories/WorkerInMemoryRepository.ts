@@ -21,8 +21,6 @@ export class WorkerInMemoryRepository implements WorkerRepository {
 		return this.workerCache
 			.map((worker) => {
 				const entrypoint = worker.match(plugin.environment);
-				//console.dir("entrypoint:%s and plugin.environment:%s",entrypoint,plugin.environment)
-				 console.log("entrypoint:%s and plugin.environment:%s",JSON.stringify(entrypoint),JSON.stringify(plugin.environment))
 				if (entrypoint !== null) {
 					return { worker, entrypoint };
 				}

@@ -52,6 +52,7 @@ const defineRoute = (registry: Registry): express.Router => {
 			);
 
 			try {
+				
 				const p = path.resolve(
 					"/ccx-store",
 					"projects",
@@ -61,10 +62,13 @@ const defineRoute = (registry: Registry): express.Router => {
 					history.internalHistoryEntityId.toHexString(),
 					filepath
 				);
+					
 
 				res.sendFile(p, (err) => {
 					if (err !== undefined) {
 						res.sendStatus(404);
+					}
+					else{
 					}
 				});
 			} catch (err) {
