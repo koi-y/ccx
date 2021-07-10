@@ -212,7 +212,25 @@ export default class ProjectRepository {
 				}
 			)) !== null
 		);
+	
 	}
+
+
+
+	public static async deleteProject(
+		internalProjectEntityId: InternalProjectEntityId,
+	): Promise<boolean> {
+		return (
+			(await ProjectModel.findByIdAndRemove(
+				{ _id: internalProjectEntityId }
+				)) !== null
+		);
+	
+	}
+
+
+
+
 
 	public static async delete(
 		ownerId: InternalUserEntityId,

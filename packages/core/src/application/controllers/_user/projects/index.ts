@@ -69,9 +69,13 @@ const defineRoute = (registry: Registry): express.Router => {
 		})
 	);
 
+
 	router.use("/:projectName", projectName(registry));
 
 	return router;
 };
+
+
+
 
 export default defineRoute;
