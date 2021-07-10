@@ -11,7 +11,6 @@ import { configTemplate } from "configTemplate";
 import * as ChildProcess from "child_process";
 
 const deckardRoot = "/Deckard";
-//const deckardRoot = "/Deckard";
 const deckardSh = path.resolve(
 	deckardRoot,
 	"scripts",
@@ -125,8 +124,7 @@ const writeClonesJson = async (
 ): Promise<void> => {
 	const p = path.resolve(artifactsDir, index.toFixed());
 	fs.mkdir(p);
-	console.log(p)
-	await fs.writeFile(path.resolve(p,"clones.json"), JSON.stringify(result));
+	await fs.writeFile(path.resolve(p, "clones.json"), JSON.stringify(result));
 };
 
 const convertResults = async (
@@ -174,14 +172,12 @@ const readQuery = async (resources: string): Promise<Query> => {
 	console.log("read query:", JSON.stringify(query))
 
 	const repo = path.resolve(resources, "repo", query.targets[0].revision);
-	const output = path.resolve(artifacts, "output");
+	const output = path.resolve(artifacts,"0", "output");
 	await fs.mkdir(output, { recursive: true });
 
 	const config = buildConfig(query.parameters, output, repo);
-	console.log(config);
 	console.log("write config");
 	await writeConfig("/tmp", config);
-	console.log("exec Deckard");
 	const code = await execDeckard("/tmp");
 	console.log(`Deckard exited with code ${code}`);
 	console.log("convert result");

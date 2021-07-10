@@ -59,6 +59,33 @@ const defineRoute = (registry: Registry): express.Router => {
 		})
 	);
 
+
+
+
+
+	router.delete<{
+		userEntityId: string;
+		projectName: string;
+	}>(
+		"/",
+		useAsync(async (req, res) => {
+
+			const { userEntityId, projectName } = req.params;
+
+			const deleted = await ProjectService.deleteProject(
+				createEntityId(userEntityId),
+				projectName,
+			);
+
+
+			res.sendStatus(deleted ? 200 : 404);
+		})
+	);
+
+		
+
+
+
 	return router;
 };
 

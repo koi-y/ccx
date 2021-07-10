@@ -195,7 +195,8 @@ const HistoriesTable: React.FunctionComponent<Props> = (props: Props) => {
 		if (!data || data.error) {
 			return;
 		}
-
+		console.log("data");
+		console.log(data);
 		const index = data.histories.findIndex(
 			({ historyId }) => historyId === deleted
 		);

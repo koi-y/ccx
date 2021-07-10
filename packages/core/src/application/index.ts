@@ -12,14 +12,30 @@ const main = async () => {
 	const pluginRepository = await PluginFileSystemRepository.init(
 		"/ccx-store"
 	);
-	pluginRepository.startGitDaemon();
-
+		/*
+	const GlobalConfigObject = {
+		apiAddr: process.env.API_PORT;
+		gitAddr: process.env.GIT_PORT;
+		sessionSecret: process.env.SESSION_SECRET;
+		sessionDbUri: process.env.SESSION_DB_URI;
+		dbUri: process.env.DB_URI;
+		workers: process.env.WORKERS
+	};
+	*/
 	// await new Promise((resolve) => setTimeout(resolve, 5000));
-
+	const config :Partial<Record<"WORKERS" | "CONTROLLER_HOST" | "API_PORT" | "GIT_PORT" | "SESSION_SECRET" | "SESSION_DB_URI" | "DB_URI", string>> = {
+		API_PORT: process.env.API_PORT,
+		GIT_PORT: process.env.GIT_PORT,
+		SESSION_SECRET: process.env.SESSION_SECRET,
+		SESSION_DB_URI: process.env.SESSION_DB_URI,
+		DB_URI: process.env.DB_URI,
+		CONTROLLER_HOST: process.env.CONTROLLER_HOST,
+		WORKERS: process.env.WORKERS
+	}
 	const registry: Registry = {
 		workerClientFactory: new WorkerHttpClientFactory(),
 		workerRepository: new WorkerInMemoryRepository(),
-		globalConfig: new GlobalConfig(process.env),
+		globalConfig: new GlobalConfig(config),
 		pluginRepository,
 		temporaryStoreRepository: new TemporaryStoreFileSystemRepository()
 	};

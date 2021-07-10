@@ -1,4 +1,4 @@
-FROM gcc:latest as deckard-builder
+FROM gcc@sha256:106097d8eca1b35e7dee1c1716815d4f6d29fc54f130252f8b4a006ada46fbc7 as deckard-builder
 RUN apt-get update && \
 	apt-get install -y git python2 make bison flex&& \
 	apt-get clean && \

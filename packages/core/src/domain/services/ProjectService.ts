@@ -79,6 +79,32 @@ export default class ProjectService {
 		);
 	}
 
+
+
+	public static async deleteProject(
+		ownerId: InternalUserEntityId,
+		projectName: string,
+	): Promise<boolean> {
+
+
+		const  project = await this.findProjectByName(
+			ownerId,
+			projectName
+		);
+
+
+		return ProjectRepository.deleteProject(
+			project.internalProjectEntityId
+		);
+	}
+
+
+
+
+
+
+
+
 	public static async readArtifacts(
 		ownerId: InternalUserEntityId,
 		internalProjectEntityId: InternalProjectEntityId,
