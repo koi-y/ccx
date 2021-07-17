@@ -47,3 +47,7 @@ For more information about CCX, please refer to the above paper.
 
 
 現在，Deckardは保守中で正しい答えがでません。
+
+gitリポジトリは英語以外のパス名を含まないようにしてください。
+
+git repository should not include non-English character path names.
