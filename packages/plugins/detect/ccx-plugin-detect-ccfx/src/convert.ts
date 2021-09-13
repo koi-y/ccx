@@ -1,4 +1,4 @@
-import * as fs from "fs";
+import * as fs from "graceful-fs";
 import * as path from "path";
 import * as readline from "readline";
 import {
@@ -10,7 +10,10 @@ import {
 	Fragment
 } from "types";
 import { runCCFinderX } from "common";
+import { queue } from 'async';
 
+import pLimit from 'p-limit';
+const limit = pLimit(3);
 const fileMapRegex = /^(\d+)\s+(.+)\s+(\d+)$/;
 const clonePairRegex = /^\d+\s+(\d+)\.(\d+)-(\d+)\s+(\d+)\.(\d+)-(\d+)$/;
 const prepTokenRegex = /^([\da-f]+)\.[\da-f]+\.[\da-f]+\s\+[\da-f]+\s.+$/;
@@ -18,6 +21,8 @@ const prepTokenRegex = /^([\da-f]+)\.[\da-f]+\.[\da-f]+\s\+[\da-f]+\s.+$/;
 type State = "source_files" | "clone_pairs" | null;
 
 const postfixHead = "option: -preprocessed_file_postfix";
+
+
 
 const readFileMap = (line: string, repoPath: string): CCFXFile | null => {
 	const r = fileMapRegex.exec(line);
@@ -63,6 +68,7 @@ const readCCFXResult = async (
 	postfix: string;
 	clonePairs: CCFXClonePair[];
 }> => {
+
 	const rl = readline.createInterface(fs.createReadStream(printingPath));
 
 	let state: State = null;
@@ -145,6 +151,11 @@ const normalizeCCFXFragment = async (
 	};
 };
 
+
+const q = queue(async (data: any) => {
+    return await normalizeCCFXFragment(data.f, data.targetRelative, data.prepDir, data.postfix);
+  }, 1)
+
 const normalizeCCFXClonePairs = (
 	clonePairs: CCFXClonePair[],
 	targetRelative: string,
@@ -152,9 +163,14 @@ const normalizeCCFXClonePairs = (
 	postfix: string
 ): Promise<ClonePair>[] =>
 	clonePairs.map(async ({ f1, f2 }) => ({
-		f1: await normalizeCCFXFragment(f1, targetRelative, prepDir, postfix),
-		f2: await normalizeCCFXFragment(f2, targetRelative, prepDir, postfix)
+		f1: await q.push({f: f1, targetRelative, prepDir, postfix}),
+		f2: await q.push({f: f2, targetRelative, prepDir, postfix})
 	}));
+
+
+
+
+
 
 export const convertResult = async (
 	ccfxd: string,

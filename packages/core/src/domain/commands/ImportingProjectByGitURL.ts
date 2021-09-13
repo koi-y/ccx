@@ -20,6 +20,8 @@ export default class ImportingProjectByGitURL {
 
 	constructor(readonly ownerId: InternalUserEntityId, gitURL: string) {
 		this.gitURL = createGitURLWithPassword(gitURL, "gitURL");
+		console.log("this.gitURL");
+		console.log(this.gitURL);
 		const match = this.gitURL.pathname.match(extractNameFromGitURL)!;
 		if (match && match[1]) {
 			this.name = createProjectName(match[1]);
@@ -33,6 +35,12 @@ export default class ImportingProjectByGitURL {
 	}
 
 	public async exec(): Promise<ProjectEntity|number| null> {
+		console.log("this.ownerId");
+		console.log(this.ownerId);
+		console.log("this.name");
+		console.log(this.name);
+		console.log("this.gitURL");
+		console.log(this.gitURL);
 		const r = await ProjectRepository.createProject(
 			this.ownerId,
 			this.name,
@@ -40,6 +48,8 @@ export default class ImportingProjectByGitURL {
 				gitURL: this.gitURL
 			}
 		);
+		console.log("r");
+		console.log(r);
 		if(typeof r == 'number'){		
 			return -1;
 		}

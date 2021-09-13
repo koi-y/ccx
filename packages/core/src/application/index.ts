@@ -23,6 +23,7 @@ const main = async () => {
 	};
 	*/
 	// await new Promise((resolve) => setTimeout(resolve, 5000));
+	pluginRepository.startGitDaemon();
 	const config :Partial<Record<"WORKERS" | "CONTROLLER_HOST" | "API_PORT" | "GIT_PORT" | "SESSION_SECRET" | "SESSION_DB_URI" | "DB_URI", string>> = {
 		API_PORT: process.env.API_PORT,
 		GIT_PORT: process.env.GIT_PORT,

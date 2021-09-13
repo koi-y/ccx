@@ -1,3 +1,4 @@
+
 import * as fs from "fs/promises";
 import * as path from "path";
 import { decode, runCCFinderX } from "common";
@@ -56,6 +57,7 @@ const readQuery = async (resources: string): Promise<Query> => {
 	}
 
 	const result = await convertResult(ccfxd, output, repo, directory);
+	console.log(`test`);
 	await writeClonesJson(artifacts, result);
 	process.exit(0);
 })().catch((err) => {

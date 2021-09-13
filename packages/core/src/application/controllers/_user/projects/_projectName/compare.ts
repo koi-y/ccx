@@ -48,7 +48,8 @@ const map = (
 	const baseToComparing: MappingResult["baseToComparing"] = {};
 	const comparingToBase: MappingResult["comparingToBase"] = {};
 	const allGrids: MappingResult["allGrids"] = {};
-
+	console.log("Object");
+	console.log(JSON.stringify(Object));
 	Object.entries(base.files).forEach(([id, f]) => {
 		allFiles[fileCtr] = { path: f, base: Number(id) as FileId };
 		allGrids[fileCtr] = {};
@@ -57,6 +58,8 @@ const map = (
 
 	Object.entries(comparing.files).forEach(([id, f]) => {
 		const file = Object.entries(allFiles).find(([, ff]) => ff.path === f);
+		console.log("file");
+		console.log(file);
 		if (file) {
 			comparingToAllF[Number(id)] = file[1].base;
 			allFiles[Number(file[0])] = {
@@ -77,12 +80,16 @@ const map = (
 
 			const xx = Number(x);
 			const yy = Number(y);
-			if (xx < yy) {
+
+			if (xx <= yy) {
 				let baseCP: ClonePairId[] = [];
 				let comparingCP: ClonePairId[] = [];
-				if (yf.base && xf.base) {
+
+				if (yf.base!=null && xf.base!=null) {
+					
 					const f1 = Math.min(yf.base, xf.base);
 					const f2 = Math.max(yf.base, xf.base);
+
 					baseCP = Object.entries(base.clonePairs)
 						.filter(
 							([, cp]) => cp.f1.file === f1 && cp.f2.file === f2
@@ -90,16 +97,16 @@ const map = (
 						.map(([id]) => Number(id) as ClonePairId);
 				}
 
-				if (yf.comparing && xf.comparing) {
+				if (yf.comparing!=null && xf.comparing!=null) {
 					const f1 = Math.min(yf.comparing, xf.comparing);
 					const f2 = Math.max(yf.comparing, xf.comparing);
+
 					comparingCP = Object.entries(comparing.clonePairs)
 						.filter(
 							([, cp]) => cp.f1.file === f1 && cp.f2.file === f2
 						)
 						.map(([id]) => Number(id) as ClonePairId);
 				}
-
 				if (baseCP.length > 0 || comparingCP.length > 0) {
 					allGrids[yy][xx] = {
 						base: baseCP,
