@@ -51,6 +51,10 @@ const defineRoute = (registry: Registry): express.Router => {
 		useAsync(async (req, res) => {
 			const { userEntityId } = req.params;
 			const { gitURL } = req.body;	
+			//console.log("req");
+			//console.log(req);
+			//console.log("res");
+			//console.log(res);
 			const project = await new ImportingProjectByGitURL(
 				createEntityId(userEntityId),
 				gitURL

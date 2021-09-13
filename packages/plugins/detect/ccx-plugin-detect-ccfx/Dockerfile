@@ -20,6 +20,7 @@ COPY . C:/plugin
 WORKDIR C:/plugin
 RUN pwsh -Command \
 	yarn install; \
+	yarn add graceful-fs async; \
 	yarn run build
 
 FROM mcr.microsoft.com/powershell:lts-windowsservercore-1809 as prod

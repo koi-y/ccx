@@ -40,6 +40,7 @@ import { rawDetectionResult } from "domain/codecs";
 import { createDetectionResult } from "domain/entity/RawDetectionResult";
 import InternalJobEntity from "common/server-only/types/InternalJobEntity";
 import DetectionResult from "common/all/types/DetectionResult";
+import { validateFloatParameterSingle } from "common/all/utils/validators";
 
 
 
@@ -99,11 +100,16 @@ export default class ProjectRepository {
 				lastUpdated: new Date() as ProjectLastUpdated,
 				histories: []
 			});
-
+			console.log("document");
+			console.log(document);
 			const { repo, histories } = resolveChildrenPaths(
 				ownerId,
 				createEntityId(document._id)
 			);
+			console.log("repo");
+			console.log(repo);
+			console.log("histories");
+			console.log(histories);
 			try {
 				await Promise.all([
 					fs.promises.mkdir(repo, { recursive: true }),
@@ -114,6 +120,7 @@ export default class ProjectRepository {
 
 				return createInternalProjectEntity(document);
 			} catch (err) {
+				console.log("aaa")
 				await this.delete(ownerId, document._id);
 			}
 		} catch (err) {
@@ -144,7 +151,13 @@ export default class ProjectRepository {
 		repoDir: string
 	): Promise<void> {
 		if (source.gitURL) {
+			console.log("source");
+			console.log(source);
+			console.log("repoDir");
+			console.log(repoDir);
 			const git = this.openGitOn(repoDir);
+			console.log("git");
+			console.log(git);
 			await git.clone(source.gitURL.toString(), repoDir);
 			const branches = (await git.branch(["-r"])).all
 				.filter(
@@ -158,14 +171,57 @@ export default class ProjectRepository {
 						local: remote.substr("origin/".length)
 					};
 				});
-
+				console.log("branches");
+				console.log(branches);
+				console.log("await git.branch(-r]");
+				console.log(await git.branch(["-r"]));
+				console.log("await git.branch");
+				console.log(await git.branch());
 			// eslint-disable-next-line no-restricted-syntax
+
 			for await (const { local, remote } of branches) {
-				await git.raw(["branch", "--track", local, remote]);
+				console.log("local");
+				console.log(local);
+				console.log("remote");
+				console.log(remote);
+				
+				const branchescheck = (await git.branch()).all
+				.map((remotename) => {
+					if(remotename==local){
+						return true;
+					}
+					return false;
+				});
+
+				console.log("branchescheck");
+				console.log(branchescheck);
+
+
+				var checktmp = false;
+
+				for(var i=0;i<branchescheck.length;i++){
+					if(branchescheck[i]){
+						checktmp=true;
+						break;
+					}
+					
+				}
+				
+				if(checktmp){
+					await git.raw(["branch", "--track","-M", local, remote]);
+				}
+				else{
+					await git.raw(["branch", "--track", local, remote]);
+				}
+				
+				//await git.raw(["branch", "--track", local, remote]);
+				console.log("1");
 			}
 
 			await git.raw(["fetch", "--all"]);
+			console.log("2");
 			await git.raw(["pull", "--all"]);
+			console.log("3");
 		}
 	}
 
