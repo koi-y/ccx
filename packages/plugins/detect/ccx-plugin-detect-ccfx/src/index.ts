@@ -57,7 +57,6 @@ const readQuery = async (resources: string): Promise<Query> => {
 	}
 
 	const result = await convertResult(ccfxd, output, repo, directory);
-	console.log(`test`);
 	await writeClonesJson(artifacts, result);
 	process.exit(0);
 })().catch((err) => {
