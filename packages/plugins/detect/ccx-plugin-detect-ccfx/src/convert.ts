@@ -12,8 +12,6 @@ import {
 import { runCCFinderX } from "common";
 import { queue } from 'async';
 
-import pLimit from 'p-limit';
-const limit = pLimit(3);
 const fileMapRegex = /^(\d+)\s+(.+)\s+(\d+)$/;
 const clonePairRegex = /^\d+\s+(\d+)\.(\d+)-(\d+)\s+(\d+)\.(\d+)-(\d+)$/;
 const prepTokenRegex = /^([\da-f]+)\.[\da-f]+\.[\da-f]+\s\+[\da-f]+\s.+$/;
