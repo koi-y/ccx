@@ -332,7 +332,7 @@ export default class ProjectRepository {
 			}
 			await this.zip(historyDir, zipPath);
 			return zipPath;
-		} catch (err) {
+		} catch (err:any) {
 			if ("code" in err && err.code === "ENOENT") {
 				await this.zip(historyDir, zipPath);
 				return zipPath;
@@ -373,7 +373,7 @@ export default class ProjectRepository {
 					(previous, current) => previous.concat(current),
 					[]
 				);
-			} catch (err) {
+			} catch (err:any) {
 				if ("code" in err && err.code === "ENOENT") {
 					return [];
 				}

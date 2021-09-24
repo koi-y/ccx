@@ -1,5 +1,5 @@
 import * as t from "io-ts";
-import { Types } from "mongoose";
+import mongoose from "mongodb";
 
 import {
 	internalProjectEntityId,
@@ -18,9 +18,9 @@ export type InternalProjectEntityId = t.TypeOf<typeof internalProjectEntityId>;
 export type InternalUserEntityId = t.TypeOf<typeof internalUserEntityId>;
 
 export function createEntityId<T extends InternalEntityId>(
-	value: Types.ObjectId | string
+	value: mongoose.ObjectId | string
 ): T {
 	return ((typeof value === "string"
-		? new Types.ObjectId(value)
+		? new mongoose.ObjectId(value)
 		: value) as unknown) as T;
 }
