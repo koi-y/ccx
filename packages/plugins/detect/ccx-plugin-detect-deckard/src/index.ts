@@ -48,7 +48,6 @@ const buildConfig = (
 	addConfig("MIN_TOKENS", parameters.minTokens.join(" "));
 	addConfig("STRIDE", parameters.stride.join(" "));
 	addConfig("SIMILARITY", parameters.similarity.join(" "));
-
 	return config.join("\n");
 };
 
@@ -80,7 +79,7 @@ const parseFragment = (line: string, repoDir: string): Fragment => {
 	const result = line.match(fragmentRegex);
 
 	if (result) {
-		const [_, file, beginStr, endStr] = result;
+		const [_, file, endStr, beginStr] = result;
 		return {
 			file: path.relative(repoDir, file),
 			begin: Number.parseInt(beginStr, 10),
@@ -143,7 +142,7 @@ const convertResults = async (
 			const resultPath = path.resolve(
 				outputDir,
 				"clusters",
-				`cluster_vdb_${m}_${st}_allg_${sim}_30`
+				`post_cluster_vdb_${m}_${st}_allg_${sim}_30`
 			);
 			const cloneSets = await parseResult(resultPath, repoDir);
 			await writeClonesJson(artifactsDir, index, {
@@ -172,7 +171,7 @@ const readQuery = async (resources: string): Promise<Query> => {
 	console.log("read query:", JSON.stringify(query))
 
 	const repo = path.resolve(resources, "repo", query.targets[0].revision);
-	const output = path.resolve(artifacts,"0", "output");
+	const output = path.resolve(artifacts, "output");
 	await fs.mkdir(output, { recursive: true });
 
 	const config = buildConfig(query.parameters, output, repo);
@@ -182,6 +181,7 @@ const readQuery = async (resources: string): Promise<Query> => {
 	console.log(`Deckard exited with code ${code}`);
 	console.log("convert result");
 	await convertResults(artifacts, output, query.parameters, repo);
+	await writeConfig(output, config);
 	console.log("finished to convert results.");
 	process.exit(0);
 })().catch((err) => {

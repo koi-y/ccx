@@ -40,14 +40,14 @@ variants:
         label: Size of the sliding window
         type: int
         rule:
-          default: 2
+          default: 0
           min: 0
           multiple: true
       similarity:
         label: Similarity
         type: float
         rule:
-          default: 0.85
+          default: 0.95
           minExclusive: 0
           max: 1
           multiple: true

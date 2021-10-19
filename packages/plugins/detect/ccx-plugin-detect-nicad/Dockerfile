@@ -1,11 +1,11 @@
 FROM node:14-buster-slim as dev
 RUN apt-get update && \
 	apt-get install -y build-essential curl
-RUN curl -SL https://www.txl.ca/download/28736-txl10.8.linux64.tar.gz | tar -xz && \
-	cd /txl10.8.linux64 && \
+RUN curl -SL https://www.txl.ca/download/30707-txl10.8a.linux64.tar.gz | tar -xz && \
+	cd /txl10.8a.linux64 && \
 	./InstallTxl && \
 	cd / && \
-	curl -SL https://www.txl.ca/download/24915-NiCad-6.2.tar.gz | tar -xz && \
+	curl -SL https://www.txl.ca/download/7722-NiCad-6.2.tar.gz | tar -xz && \
 	cd NiCad-6.2 && \
 	make
 
