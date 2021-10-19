@@ -52,3 +52,6 @@ For more information about CCX, please refer to the above paper.
 gitリポジトリは英語以外のパス名を含まないようにしてください。
 
 git repository should not include non-English character path names.
+
+現在、システムが過負荷にならないよう、クローン検出に5分以上要する場合は強制終了するようにしています。
+Currently, to prevent the system from being overloaded, each  clone detection is forced to terminate if it takes more than 5 minutes.
