@@ -8,12 +8,13 @@ import { InternalJobEntityId } from "common/server-only/value-objects/EntityId";
 
 export class WorkerHttpClient implements WorkerClient {
 	private client: Got;
-
+//			timeout: 5 * 1000 * 60,
 	constructor(private baseUrl: string) {
 		this.client = got.extend({
 			prefixUrl: `http://${this.baseUrl}`,
 			throwHttpErrors: false,
 			responseType: "json",
+			timeout: 5 * 1000 * 60,
 			retry: 0
 		});
 	}
