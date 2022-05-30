@@ -119,12 +119,14 @@ func (p Plugin) Tar(qp plugin.Path) (plugin.TarReader, error) {
 func (p Plugin) clone() {
 	u := fmt.Sprintf("git://%s/plugins/.git", p.gitAddr)
 	//u := fmt.Sprintf("https://github.com/kk-mats/ccx.git")
+	//u := fmt.Sprintf("https://github.com/koi-y/ccx.git")
+	//u := fmt.Sprintf("https://github.com/koi-y/ccx/plugins.git")
 	
 	//_, err := git.PlainClone(p.pluginsRoot, false, &git.CloneOptions{URL: u})
 	_, err := git.PlainClone(p.pluginsRoot, false, &git.CloneOptions{URL: u})
 	if err != nil {
 		//log.Fatalf("alert: failed to fetch global plugins from %s: %v", u, err.Error())
-		log.Fatalf("alert: failed to fetch global plugins from %s: %v:::%s", u, err.Error(),p.pluginsRoot)
+		log.Fatalf("alert: failed to fetch global plugins from %s: %v:::%s:::%s", u, err.Error(),p.pluginsRoot,&git.CloneOptions{URL: u})
 	}
 }
 

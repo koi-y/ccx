@@ -74,7 +74,7 @@ const HistoryRow: React.FunctionComponent<RowProps> = ({
 					dense
 					download
 					component="a"
-					href={`${process.env.URL_BASE}api/projects/${project}/histories/${history.historyId}/artifacts/${history.historyId}.zip`}
+					href={`${process.env.URL_BASE}api/v1/projects/${project}/histories/${history.historyId}/artifacts/${history.historyId}.zip`}
 					onClick={onMenuClose}
 				>
 					<ListItemIcon>
@@ -196,7 +196,8 @@ const HistoriesTable: React.FunctionComponent<Props> = (props: Props) => {
 			return;
 		}
 		console.log("data");
-		console.log(data);
+		//onsole.log(data);
+		console.log(data.histories);
 		const index = data.histories.findIndex(
 			({ historyId }) => historyId === deleted
 		);

@@ -64,6 +64,7 @@ func (w Workspace) resolveArtifacts(id query.ID) value.WorkspaceArtifacts {
 func (w Workspace) FetchRevision(id query.ID, user query.Querent, project query.Project, revision query.ProjectRevision) error {
 	path := filepath.Join(string(w.resolveResource(id)), "repo", string(revision))
 	repo, err := git.PlainInit(path, false)
+	//log.Printf("debug:  repo:%s, w.gitAddr:%s, user:%s, project:%s.",repo, w.gitAddr, user, project)
 	if err != nil {
 		return err
 	}
@@ -71,6 +72,7 @@ func (w Workspace) FetchRevision(id query.ID, user query.Querent, project query.
 	remote, err := repo.CreateRemote(&config.RemoteConfig{
 		Name: "origin",
 		URLs: []string{fmt.Sprintf("git://%s/projects/%s/%s/repo/.git", w.gitAddr, user, project)},
+		//URLs: []string{fmt.Sprintf("git://%s/projects/%s/%s/repo/.git", user, project)},  //URLs: []string{fmt.Sprintf("git://%s/projects/%s/%s/repo/.git", w.gitAddr, user, project)},
 	})
 	if err != nil {
 		return err

@@ -24,6 +24,7 @@ COPY packages/common /ccx/packages/common
 COPY packages/client /ccx/packages/client
 RUN cd /ccx && \
 	yarn install && \
+	yarn -D -W add url &&\
 	yarn run build
 
 

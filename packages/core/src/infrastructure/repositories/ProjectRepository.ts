@@ -323,6 +323,8 @@ export default class ProjectRepository {
 			internalHistoryEntityId.toHexString()
 		);
 
+		
+
 		const zipPath = `${historyDir}.zip`;
 
 		try {
