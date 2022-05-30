@@ -3,6 +3,8 @@
 import * as t from "io-ts";
 import * as tt from "io-ts-types/lib/date";
 import { URL } from "url";
+//var URL = require('url');
+
 
 export const brand = <C extends t.Mixed, B extends string>(codec: C, b: B) =>
 	t.intersection([

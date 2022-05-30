@@ -180,4 +180,10 @@ module.exports = [
 	{ name: "dev", ...dev },
 	{ name: "build", ...prod(false) },
 	{ name: "prod", ...prod(true) },
+	{resolve: {
+			fallback: {
+		  		url: require.resolve("url/")
+			}
+		}
+	}
 ];
