@@ -47,7 +47,7 @@ For more information about CCX, please refer to the above paper.
 
 11:55~12:00の間は、CCXの再起動のため、正常に動作しない可能性があります。
 
-現在，Deckardは保守中で正しい答えがでません。
+現在，CCFinderXは保守中で正しい答えがでません。
 
 gitリポジトリは英語以外のパス名を含まないようにしてください。
 
